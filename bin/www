@@ -1,0 +1,7 @@
+const config = require('../config');
+const app = require('../main');
+const logger = require('../components/logger');
+
+app.listen(config.server.port, () => {
+    logger.info(`App listening on port: ${config.server.port}`);
+});
