@@ -45,7 +45,7 @@ How to read the code
 2. Check the routers (actually 'test' is the only route at the moment). Routes are defined in the `routes` directory and exported using the `index.js` file in there. All that directory structure is intended to improve the modularization of the app.
 3. Routes use controllers, which are defined in those same directories.
 
-### Description of directories
+### Description of directories
 
 - `components`: Contains different components used in the application
 - `config`: Contains configuration and env vars validation for the whole app
@@ -62,17 +62,15 @@ Used libraries
 
 There's a [good explaination from Bluebird's creator](https://softwareengineering.stackexchange.com/a/279003) and a [good explaination of the points he makes](https://www.reaktor.com/blog/javascript-performance-fundamentals-make-bluebird-fast/).
 
-
 ### Why Joi?
 
 Joi is a schema validator, used in the config. After creating a schema for the configuration it allows to validate and throw an error earlier if the validation did not pass (instead of actually trying to use the values, like connecting to a Redis database in an invalid port number).
-
 
 ### Why Winston?
 
 Winston is a logger. The simplest implementation outputs to the console (the same that `console.log` does), but it is very flexible, so one can configure it to log to files (with rotation, separation of concerns, etc.) or even upload to a log service (like Loggly).
 
-### Why Axios?
+### Why Axios?
 
 Axios allow to handle http requests in a more convenient and semantic way, also providing the ability of using promises as interface for those async requests.
 
