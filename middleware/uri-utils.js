@@ -8,6 +8,10 @@ const uriRegex = /^https?:\/\/[^\s/$.?#].[^\s]*$/i;
 exports.validateUri = (req, res, next) => {
     const url = _.get(req, 'query.url');
 
+    if(!url) {
+        throw new ClientError('URL is missing');
+    }
+
     if (String(url).match(uriRegex)) {
         req.validUrl = url;
     } else {

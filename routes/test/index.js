@@ -1,8 +1,8 @@
 const { Router } = require('express');
-const pullController = require('./pull');
+const pullRouter = require('./pull');
 
 const testRouter = Router();
 
-testRouter.use('/pull', pullController);
+testRouter.use('/pull', pullRouter);
 
 module.exports = testRouter;

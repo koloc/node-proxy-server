@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Proxy",
-            "program": "${workspaceFolder}/main.js",
+            "program": "${workspaceFolder}/bin/www",
             "outputCapture": "std",
             "env": {
                 "LOGLEVEL": "debug"

@@ -8,7 +8,7 @@ const logger = require('../components/logger');
 // Change the following path to change the fetch strategy.
 // This can be, in a future iteration, configured somewhere or
 // dynamically set, based on stats or monitoring, for example.
-const FetchStrategy = require('../utils/fetch-strategies/parallel');
+const FetchStrategy = require('../utils/fetch-strategies/serialized');
 
 const fetchFromCache = ({ url }) => redisClient.getAsync(url).then((res) => {
     if (res !== null) {
@@ -21,7 +21,7 @@ const fetchFromCache = ({ url }) => redisClient.getAsync(url).then((res) => {
             headers: addCacheHeaders(response.headers, cacheExpiration, true),
         };
     }
-    throw new Error('Not in cache');
+    throw new Error('Not in cache'); // WHAT IF IT THROWS
 });
 
 // TODO: handle cancellation
@@ -58,19 +58,14 @@ exports.fetch = function get(req, res) {
             const {
                 url,
                 status,
-                data,
+                body,
                 headers,
             } = result;
-            const saveStr = JSON.stringify({ status, data, headers });
+            const saveStr = JSON.stringify({ status, body, headers });
 
             // Save and set expiration time
             redisClient.set(url, saveStr, 'EX', cacheExpiration);
         }
-        return result;
-    }
-
-    function cancelPendingRequests(result) {
-        // TODO: implement cancelling the pending requests
         return result;
     }
 
@@ -81,7 +76,6 @@ exports.fetch = function get(req, res) {
 
     fetchStrategy.fetch()
         .then(respondToClient)
-        .then(cancelPendingRequests)
         .then(saveToRedis)
         .catch((err) => {
             throw new Error(err.message);
